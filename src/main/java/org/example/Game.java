@@ -9,7 +9,7 @@ public class Game {
     private Scanner scanner;
 
     public Game(int rows, int col, int mines){
-        Board board = new Board(rows,col,mines);
+        Board board = new Board();
         boolean gameOver = false;
         Scanner scanner = new Scanner(System.in);
     }
