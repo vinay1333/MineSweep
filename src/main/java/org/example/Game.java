@@ -81,11 +81,6 @@ public class Game {
         String playAgainInput = scanner.next();
         return playAgainInput.equalsIgnoreCase("Y"); // If "Y" is entered value returns true and game will ask to play again, else false and game stops.
     }
-
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.play();
-    }
 }
 
 
