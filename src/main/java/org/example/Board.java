@@ -4,12 +4,14 @@ import java.util.Random;
 
 public class Board {
 
-    private static final int boardSize = 8;
-    private static final int noMines = 10;
-    private Tile[][] grid; // Array of tiles represent board grid
+    private final int boardSize;
+    private final int noMines;
+    private Tile[][] grid;
     private boolean isFirstMove;
 
-    public Board(){ // Board constructor
+    public Board(Difficulty difficulty) { // Accept difficulty as a parameter
+        this.boardSize = difficulty.getBoardSize();
+        this.noMines = difficulty.getNoMines();
 
         isFirstMove = true;
         grid = new Tile[boardSize][boardSize];
@@ -17,14 +19,6 @@ public class Board {
         setBoard();
         placeMines();
         calculateAdjMines();
-    }
-
-
-    public boolean getFirst(){
-        return isFirstMove;
-    }
-    public void setFirst() {
-        isFirstMove = false;
     }
 
     private void setBoard() { // Initialise the grid with tile objects, setting their positions.
@@ -108,7 +102,7 @@ public class Board {
             for (int dx = -1; dx <= 1; dx++) { // Loop through rows above, in-line and below current tile.
                 for (int dy = -1; dy <= 1; dy++) { // Loop through columns to left, in-line and to the right of current tile.
                     if (dx != 0 || dy != 0){ //skip looping through current tile
-                        flipTile(x + dx, y + dy); // Flip the neighbouring tile if not already flipped.
+                        flipTile(x + dx, y + dy); // Recursively flips the neighbouring tile if not already flipped.
                     }
                 }
             }
@@ -116,14 +110,14 @@ public class Board {
         return false; // Tile has been flipped and game continues.
     }
 
-    public void toggleFlag(int x, int y) {
+    public void toggleFlag(int x, int y) { // Validation method to check if tile can be flagged
         if (!isValid(x, y) || grid[x][y].isFlipped()){ // Prevent players from flagging invalid or flipped tiles.
             return;
         }
         grid[x][y].toggleFlag();
     }
 
-    public void displayBoard(boolean revealAll) { // Parameter set to F while game continues, changed to T if win/lose.
+    public void displayBoard(boolean revealAll) { // Parameter set to F when game starts, changed to T if win/lose.
         System.out.print("  ");
         for (int i = 0; i < boardSize; i++){ //Prints the Column Numbers.
             System.out.print(i + " ");
